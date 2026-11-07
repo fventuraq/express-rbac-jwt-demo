@@ -28,7 +28,7 @@ import { useTheme } from "@mui/material/styles";
 const Sidebar = ({ drawerOpen, setDrawerOpen }) => {
   const theme = useTheme();
   // `menu` deve ser um array de grupos:
-  //   [{ funid, funnom, ventanas: [{ venid, vennom, venurl, venico, venestvis }] }]
+  //   [{ funid, funnom, views: [{ vieid, vienom, vieurl, vieico, vieestvis }] }]
   const { user, menu, logout } = useAuthContext();
   const navigate = useNavigate();
   const location = useLocation();
@@ -175,10 +175,10 @@ const Sidebar = ({ drawerOpen, setDrawerOpen }) => {
           {/* Grupos del sistema (SISTEMA, DADOS...) */}
           {menu.map((funcion) => {
             const isOpen = openSubmenus[funcion.funnom];
-            const hasVentanas =
-              funcion.ventanas?.filter((v) => v.venestvis !== false).length > 0;
+            const hasViews =
+              funcion.views?.filter((v) => v.vieestvis !== false).length > 0;
 
-            if (!hasVentanas) return null;
+            if (!hasViews) return null;
 
             return (
               <Box key={funcion.funnom}>
@@ -209,21 +209,21 @@ const Sidebar = ({ drawerOpen, setDrawerOpen }) => {
 
                 <Collapse in={isOpen} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
-                    {funcion.ventanas
-                      .filter((v) => v.venestvis !== false)
-                      .map((ventana) => {
-                        const isActive = location.pathname === ventana.venurl;
+                    {funcion.views
+                      .filter((v) => v.vieestvis !== false)
+                      .map((view) => {
+                        const isActive = location.pathname === view.vieurl;
 
                         return (
-                          <ListItem key={ventana.venid} disablePadding>
+                          <ListItem key={view.vieid} disablePadding>
                             <Tooltip
-                              title={ventana.vennom}
+                              title={view.vienom}
                               placement="right"
                               arrow
                             >
                               <ListItemButton
                                 onClick={() => {
-                                  navigate(ventana.venurl);
+                                  navigate(view.vieurl);
                                   if (isMobile) setMobileOpen(false);
                                 }}
                                 sx={{
@@ -254,7 +254,7 @@ const Sidebar = ({ drawerOpen, setDrawerOpen }) => {
                                 }}
                               >
                                 <ListItemText
-                                  primary={ventana.vennom}
+                                  primary={view.vienom}
                                   primaryTypographyProps={{
                                     sx: {
                                       color: isActive

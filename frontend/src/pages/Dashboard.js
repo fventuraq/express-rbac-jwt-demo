@@ -18,7 +18,7 @@ const Dashboard = () => {
   const [loaded, setLoaded] = useState(false);
 
   const menu = JSON.parse(localStorage.getItem("menu")) || [];
-  const ventanas = menu.flatMap((f) => f.ventanas || []).filter((v) => v.VenEstVis !== false);
+  const views = menu.flatMap((f) => f.views || []).filter((v) => v.vieestvis !== false);
 
   const cardColors = [
     { gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" },
@@ -35,9 +35,9 @@ const Dashboard = () => {
 
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return "Buenos días";
-    if (hour < 18) return "Buenas tardes";
-    return "Buenas noches";
+    if (hour < 12) return "Bom dia";
+    if (hour < 18) return "Boa tarde";
+    return "Boa noite";
   };
 
   return (
@@ -69,7 +69,6 @@ const Dashboard = () => {
       />
 
       <Box sx={{ position: "relative", zIndex: 1, maxWidth: "1400px", mx: "auto" }}>
-        {/* Header con bienvenida */}
         <Fade in={loaded} timeout={600}>
           <Box sx={{ mb: 4 }}>
             <Typography
@@ -89,57 +88,10 @@ const Dashboard = () => {
               {getGreeting()}, {user?.NomUsu || "Usuario"}!
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
-              Bienvenido al panel de control. Selecciona una opción para continuar.
+              Welcome to the control panel. Select an option to continue.
             </Typography>
           </Box>
-        </Fade>
-
-        {/* Tarjetas de estadísticas */}
-        <Grid container spacing={3} sx={{ mb: 4 }}>
-          {[
-            { title: "Manifiestos Activos", value: "24", change: "+12%", icon: <LocalShipping />, color: "#667eea" },
-            { title: "Vehículos en Ruta", value: "18", change: "+5%", icon: <TrendingUp />, color: "#4facfe" },
-            { title: "Conductores", value: "32", change: "+8%", icon: <People />, color: "#43e97b" },
-            { title: "Eficiencia", value: "94%", change: "+3%", icon: <Assessment />, color: "#fa709a" },
-          ].map((stat, idx) => (
-            <Grow in={loaded} timeout={(idx + 1) * 200} key={stat.title}>
-              <Grid item xs={12} sm={6} md={3}>
-                <Card
-                  elevation={0}
-                  sx={{
-                    borderRadius: 3,
-                    background: "white",
-                    border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
-                    transition: "all 0.3s",
-                    "&:hover": {
-                      transform: "translateY(-4px)",
-                      boxShadow: "0 12px 24px rgba(0,0,0,0.1)",
-                    },
-                  }}
-                >
-                  <CardContent>
-                    <Stack direction="row" justifyContent="space-between" alignItems="center">
-                      <Box>
-                        <Typography variant="body2" color="text.secondary" gutterBottom>
-                          {stat.title}
-                        </Typography>
-                        <Typography variant="h4" sx={{ fontWeight: 800 }}>
-                          {stat.value}
-                        </Typography>
-                        <Typography variant="caption" color="success.main">
-                          {stat.change}
-                        </Typography>
-                      </Box>
-                      <Avatar sx={{ bgcolor: alpha(stat.color, 0.1), color: stat.color, width: 48, height: 48 }}>
-                        {stat.icon}
-                      </Avatar>
-                    </Stack>
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grow>
-          ))}
-        </Grid>
+        </Fade>        
 
         {/* Módulos disponibles - Usando iconos dinámicos */}
         <Typography variant="h6" sx={{ fontWeight: 700, mb: 2, color: "#090030" }}>
@@ -147,12 +99,12 @@ const Dashboard = () => {
         </Typography>
 
         <Grid container spacing={2}>
-          {ventanas.map((v, idx) => {
-            //const IconComponent = getIconByName(v.VenIco);
+          {views.map((v, idx) => {
+            //const IconComponent = getIconByName(v.VieIco);
             const cardColor = cardColors[idx % cardColors.length];
 
             return (
-              <Grow in={loaded} timeout={(idx + 1) * 100} key={v.VenID}>
+              <Grow in={loaded} timeout={(idx + 1) * 100} key={v.vieid}>
                 <Grid item xs={12} sm={6} md={4} lg={3}>
                   <Card
                     elevation={0}
@@ -166,7 +118,7 @@ const Dashboard = () => {
                         boxShadow: "0 12px 24px rgba(0,0,0,0.15)",
                       },
                     }}
-                    onClick={() => navigate(v.VenURL)}
+                    onClick={() => navigate(v.vieurl)}
                   >
                     <CardActionArea>
                       <Box
@@ -191,7 +143,7 @@ const Dashboard = () => {
                       </Box>
                       <CardContent>
                         <Typography variant="h6" sx={{ fontWeight: 600, textAlign: "center" }}>
-                          {v.VenNom}
+                          {v.vienom}
                         </Typography>
                       </CardContent>
                     </CardActionArea>

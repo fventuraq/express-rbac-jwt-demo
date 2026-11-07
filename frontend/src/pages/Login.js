@@ -241,13 +241,13 @@ const Login = () => {
               <Stack direction="row" alignItems="center" spacing={0.5}>
                 <Business sx={{ fontSize: 12, color: "#666" }} />
                 <Typography variant="caption" color="text.secondary">
-                  Molissa Transportes
+                  Example system
                 </Typography>
               </Stack>
               <Stack direction="row" alignItems="center" spacing={0.5}>
                 <Security sx={{ fontSize: 12, color: "#666" }} />
                 <Typography variant="caption" color="text.secondary">
-                  Sistema Seguro
+                  Secure system
                 </Typography>
               </Stack>
             </Stack>

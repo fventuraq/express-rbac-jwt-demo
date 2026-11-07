@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-const authRoutes = require('./routes/authRoutes');
+const indexRoutes  = require('./routes');
 const verifyToken = require('./middleware/verifyToken');
 
 const app = express();
@@ -32,10 +32,10 @@ app.use(cors({
 app.use(express.json());
 
 // Public routes
-app.use('/api/auth', authRoutes);
+app.use('/api', indexRoutes);
 
 // Protected routes (RBAC / JWT demo)
-app.get('/api/protected', verifyToken, (req, res) => {
+app.get('/api', verifyToken, (req, res) => {
   res.json({
     message: 'Access granted to protected route.',
     user: req.user

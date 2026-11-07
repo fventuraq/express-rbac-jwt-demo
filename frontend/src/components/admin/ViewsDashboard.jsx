@@ -21,6 +21,7 @@ import BlockIcon from "@mui/icons-material/Block";
 import { useAuthContext } from "../../context/AuthProvider";
 
 const ViewsDashboard = () => {
+  console.log('Entre al dashboard de >Views')
   const [open, setOpen] = useState(false);
   const [editView, setEditView] = useState(null); // Estado para edición
   const [alert, setAlert] = useState({ open: false, message: "", severity: "success" });
@@ -35,7 +36,7 @@ const ViewsDashboard = () => {
 
   // Función para manejar la creación o edición
   const handleSubmitView = (data) => {
-    
+
     if (!user) {
       showAlert("Debe iniciar sesión para realizar esta acción", "error");
       return;
@@ -77,13 +78,13 @@ const ViewsDashboard = () => {
   };
 
   if (isLoading) return <Typography>Carregando views...</Typography>;
-  if (error) return <Typography>Error al cargar ventanas: {error.message}</Typography>;
+  if (error) return <Typography>Erro al carregar views: {error.message}</Typography>;
 
   return (
     <Paper sx={{ p: 2, backgroundColor: "#f5f5f5", borderRadius: 2 }}>
       <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
         <Typography variant="h6">Views</Typography>
-        <Tooltip title="Agregar Ventana">
+        <Tooltip title="Add View">
           <Button
             variant="contained"
             startIcon={<AddIcon />}
@@ -93,12 +94,12 @@ const ViewsDashboard = () => {
               setOpen(true);
             }}
           >
-            Nueva Ventana
+            Nova View
           </Button>
         </Tooltip>
       </Box>
 
-      {/* Lista de ventanas */}
+      {/* Lista de Views */}
       <List>
         {views.map((view) => (
           <ListItem
@@ -106,23 +107,22 @@ const ViewsDashboard = () => {
             sx={{ bgcolor: "white", mb: 1, borderRadius: 1, boxShadow: 1 }}
           >
             <ListItemText
-              primary={view.vienam}
+              primary={view.vienom}
               secondary={
                 <>
                   <Typography variant="body2" color="text.secondary">
                     URL: {view.vieurl}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Controller: {view.venctr}
+                    Controller: {view.viectr}
                   </Typography>
                 </>
               }
             />
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-              {/* Estado de la ventana */}
               <Chip
-                label={view.vieest}
-                color={view.vieest === "ACTIVO" ? "success" : "error"}
+                label={view.vieest === "A" ? "Activa" : "Inactiva"}
+                color={view.vieest === "A" ? "success" : "error"}
                 size="small"
               />
               {/* Botón para editar */}
@@ -137,8 +137,8 @@ const ViewsDashboard = () => {
                   <EditIcon />
                 </IconButton>
               </Tooltip>
-              
-              {view.venest === "ACTIVO" && (
+
+              {view.vieest === "A" && (
                 <Tooltip title="Desactivar">
                   <IconButton
                     size="small"

@@ -4,14 +4,6 @@ const bcrypt = require('bcryptjs');
 const pool = require('../config/db');
 require('dotenv').config();
 
-/**
- * Autentica o usuário e devolve:
- *  - token: JWT assinado
- *  - user:  payload do token (compatível com o frontend)
- *  - menu:  árvore [{ funid, funnom, ventanas: [...] }] filtrada pelo role
- *
- * Nomenclatura dos parâmetros em lowercase para alinhar com o schema do banco.
- */
 const authenticateUser = async (usunam, usupas) => {
   try {
     // 1) Buscar usuário ativo
@@ -35,17 +27,16 @@ const authenticateUser = async (usunam, usupas) => {
     }
 
     // 3) Menu: grupos (funciones) -> telas (views)
-    //    Aliases SQL em lowercase `ven*` para casar com o contrato do Sidebar.
     const menuQuery = `
       SELECT
         f.funid                AS funid,
         f.funnom               AS funnom,
-        v.vieid                AS venid,
-        v.vienom               AS vennom,
-        v.vieurl               AS venurl,
-        v.viectr               AS venctr,
-        v.vieico               AS venico,
-        v.vieestvis            AS venestvis
+        v.vieid                AS vieid,
+        v.vienom               AS vienom,
+        v.vieurl               AS vieurl,
+        v.viectr               AS viectr,
+        v.vieico               AS vieico,
+        v.vieestvis            AS vieestvis
       FROM funciones     f
       JOIN fun_rol       fr ON fr.funid = f.funid
       JOIN view_funcion  vf ON vf.funid = f.funid
@@ -59,22 +50,22 @@ const authenticateUser = async (usunam, usupas) => {
 
     const menuResult = await pool.query(menuQuery, [user.rolid]);
 
-    // 4) Agrupar em [{ funid, funnom, ventanas: [...] }]
+    // 4) Agrupar em [{ funid, funnom, views: [...] }]
     const menu = menuResult.rows.reduce((acc, row) => {
       let grupo = acc.find((g) => g.funid === row.funid);
 
       if (!grupo) {
-        grupo = { funid: row.funid, funnom: row.funnom, ventanas: [] };
+        grupo = { funid: row.funid, funnom: row.funnom, views: [] };
         acc.push(grupo);
       }
 
-      grupo.ventanas.push({
-        venid: row.venid,
-        vennom: row.vennom,
-        venurl: row.venurl,
-        venctr: row.venctr,
-        venico: row.venico,
-        venestvis: row.venestvis,
+      grupo.views.push({
+        vieid: row.vieid,
+        vienom: row.vienom,
+        vieurl: row.vieurl,
+        viectr: row.viectr,
+        vieico: row.vieico,
+        vieestvis: row.vieestvis,
       });
 
       return acc;

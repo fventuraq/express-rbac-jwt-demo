@@ -75,7 +75,7 @@ const ViewForm = ({ open, handleClose, onSubmit, defaultValues = {} }) => {
             margin="normal"
             defaultValue={defaultValues?.vieest || "A"}
             {...register("vieest")}
-          >
+          > 
             <MenuItem value="A">Activo</MenuItem>
             <MenuItem value="I">Inactivo</MenuItem>
           </TextField>

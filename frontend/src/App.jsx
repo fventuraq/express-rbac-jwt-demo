@@ -14,7 +14,7 @@ import { AuthProvider, useAuthContext } from "./context/AuthProvider";
 // Import de todos os componentes
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import viewsPage from "./pages/admin/viewsPage";
+import ViewsPage from "./pages/admin/viewsPage";
 import FuncionesPage from "./pages/admin/FuncionesPage";
 import RolesPage from "./pages/admin/RolesPage";
 import PersonsPage from "./pages/administration/PersonsPage";
@@ -23,7 +23,7 @@ import UsersPage from "./pages/administration/UsersPage";
 // 🔹 Mapeo de TODOS los componentes disponibles
 const componentesDisponibles = {
     Dashboard,
-    viewsPage,
+    ViewsPage,
     FuncionesPage,
     RolesPage,
     PersonsPage,
@@ -101,9 +101,9 @@ function AppContent() {
                             <Route path="/dashboard" element={<Dashboard />} />
                             {menu.flatMap((funcion) =>
                                 funcion.views.map((view) => {
-                                    const Componente = componentesDisponibles[view.VenCtr];
+                                    const Componente = componentesDisponibles[view.viectr];
                                     return Componente ? (
-                                        <Route key={view.VenID} path={view.VenURL} element={<Componente />} />
+                                        <Route key={view.vieid} path={view.vieurl} element={<Componente />} />
                                     ) : null;
                                 })
                             )}
